@@ -6,11 +6,11 @@ all:
   children:
     centos10_hosts:
       hosts:
-        # Add your CentOS 10 Stream hosts here
+        centos10-server1:
+          ansible_host: 192.168.1.100
+          ansible_user: root
+        # Add more CentOS 10 Stream hosts here
         # Example:
-        # centos10-server1:
-        #   ansible_host: 192.168.1.100
-        #   ansible_user: root
         # centos10-server2:
         #   ansible_host: 192.168.1.101
         #   ansible_user: root
