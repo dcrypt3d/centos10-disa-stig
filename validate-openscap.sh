@@ -130,23 +130,137 @@ print_info "Profile: $STIG_PROFILE"
 print_info "Report format: $REPORT_FORMAT"
 print_info "Report directory: $REPORT_DIR"
 
-# Function to find STIG data stream
+# Function to adapt RHEL 10 data stream to CentOS 10
+adapt_rhel10_to_centos10() {
+    local rhel10_ds="$1"
+    local centos10_ds="$2"
+    
+    print_info "Adapting RHEL 10 data stream to CentOS 10..."
+    
+    # Check if Python is available for XML processing
+    if command -v python3 &> /dev/null; then
+        # Use Python for more reliable XML processing
+        python3 << PYTHON_EOF
+import sys
+import xml.etree.ElementTree as ET
+import re
+
+try:
+    # Parse the RHEL 10 data stream
+    tree = ET.parse("$rhel10_ds")
+    root = tree.getroot()
+    
+    # Define namespaces
+    namespaces = {
+        'ds': 'http://scap.nist.gov/schema/scap/source/1.2',
+        'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
+        'xlink': 'http://www.w3.org/1999/xlink'
+    }
+    
+    # Function to replace rhel10 with centos10 in text
+    def replace_rhel10(text):
+        if text is None:
+            return text
+        return text.replace('rhel10', 'centos10').replace('RHEL 10', 'CentOS 10').replace('Red Hat Enterprise Linux 10', 'CentOS Stream 10')
+    
+    # Update root element attributes
+    for attr in root.attrib:
+        root.attrib[attr] = replace_rhel10(root.attrib[attr])
+    
+    # Update all elements recursively
+    for elem in root.iter():
+        # Update attributes
+        for attr in elem.attrib:
+            elem.attrib[attr] = replace_rhel10(elem.attrib[attr])
+        
+        # Update text content
+        if elem.text:
+            elem.text = replace_rhel10(elem.text)
+        
+        # Update tail content
+        if elem.tail:
+            elem.tail = replace_rhel10(elem.tail)
+    
+    # Write the adapted XML
+    import os
+    os.makedirs(os.path.dirname("$centos10_ds"), exist_ok=True)
+    tree.write("$centos10_ds", encoding='utf-8', xml_declaration=True)
+    print("Successfully adapted data stream")
+    sys.exit(0)
+    
+except Exception as e:
+    print(f"Error adapting XML: {e}", file=sys.stderr)
+    sys.exit(1)
+PYTHON_EOF
+        
+        if [ $? -eq 0 ] && [ -f "$centos10_ds" ]; then
+            print_info "Successfully created: $centos10_ds"
+            return 0
+        fi
+    fi
+    
+    # Fallback: Use sed for simple replacements (less reliable but works without Python)
+    print_warning "Python not available, using sed for adaptation..."
+    mkdir -p "$(dirname "$centos10_ds")"
+    
+    if sed 's/rhel10/centos10/g; s/RHEL 10/CentOS 10/g; s/Red Hat Enterprise Linux 10/CentOS Stream 10/g' "$rhel10_ds" > "$centos10_ds" 2>/dev/null; then
+        print_info "Created adapted data stream: $centos10_ds"
+        return 0
+    else
+        print_error "Failed to adapt data stream"
+        return 1
+    fi
+}
+
+# Function to find or create STIG data stream
 find_stig_ds() {
-    local ds_paths=(
-        "/usr/share/xml/scap/ssg/content/ssg-centos10-ds.xml"
-        "/usr/share/xml/scap/ssg/content/ssg-rhel10-ds.xml"
-        "/usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml"
-        "${PWD}/roles/rhel9STIG/files/ssg-centos10-ds.xml"
+    local ssg_dir="/usr/share/xml/scap/ssg/content"
+    local project_ds="${PWD}/roles/rhel9STIG/files/ssg-centos10-ds.xml"
+    
+    # First, check for existing CentOS 10 data stream
+    local centos10_paths=(
+        "${ssg_dir}/ssg-centos10-ds.xml"
+        "$project_ds"
     )
     
-    for path in "${ds_paths[@]}"; do
+    for path in "${centos10_paths[@]}"; do
         if [ -f "$path" ]; then
             echo "$path"
             return 0
         fi
     done
     
-    return 1
+    # If CentOS 10 not found, try to create it from RHEL 10
+    local rhel10_ds="${ssg_dir}/ssg-rhel10-ds.xml"
+    
+    if [ -f "$rhel10_ds" ]; then
+        print_info "CentOS 10 data stream not found, adapting from RHEL 10..."
+        
+        # Try to create in project directory first
+        if adapt_rhel10_to_centos10 "$rhel10_ds" "$project_ds"; then
+            echo "$project_ds"
+            return 0
+        fi
+        
+        # If project directory fails, try system directory (requires permissions)
+        if [ -w "$ssg_dir" ] || sudo -n true 2>/dev/null; then
+            local system_centos10="${ssg_dir}/ssg-centos10-ds.xml"
+            if adapt_rhel10_to_centos10 "$rhel10_ds" "$system_centos10"; then
+                echo "$system_centos10"
+                return 0
+            fi
+        fi
+        
+        # If adaptation failed, show error
+        print_error "Failed to create CentOS 10 data stream from RHEL 10"
+        print_error "Please ensure RHEL 10 data stream is available and adaptation is possible"
+        return 1
+    else
+        print_error "RHEL 10 data stream not found: $rhel10_ds"
+        print_error "Cannot create CentOS 10 data stream without RHEL 10 source"
+        print_error "Please install: dnf install -y scap-security-guide"
+        return 1
+    fi
 }
 
 # Function to check if OpenSCAP is installed
@@ -261,21 +375,47 @@ run_remote_validation() {
 #!/bin/bash
 set -e
 
-# Find STIG data stream
-find_stig_ds() {
-    local paths=(
-        \"/usr/share/xml/scap/ssg/content/ssg-rhel10-ds.xml\"
-        \"/usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml\"
-        \"/usr/share/xml/scap/ssg/content/ssg-centos10-ds.xml\"
-    )
+    # Function to adapt RHEL 10 data stream to CentOS 10
+adapt_rhel10_to_centos10() {
+    local rhel10_ds=\"\$1\"
+    local centos10_ds=\"\$2\"
     
-    for path in \"\${paths[@]}\"; do
-        if [ -f \"\$path\" ]; then
-            echo \"\$path\"
+    echo \"Adapting RHEL 10 data stream to CentOS 10...\"
+    
+    # Use sed for adaptation (works reliably in remote scripts)
+    mkdir -p \"\$(dirname \"\$centos10_ds\")\"
+    if sed 's/rhel10/centos10/g; s/RHEL 10/CentOS 10/g; s/Red Hat Enterprise Linux 10/CentOS Stream 10/g' \"\$rhel10_ds\" > \"\$centos10_ds\" 2>/dev/null; then
+        echo \"Created adapted data stream: \$centos10_ds\"
+        return 0
+    fi
+    return 1
+}
+
+# Find or create STIG data stream
+find_stig_ds() {
+    local ssg_dir=\"/usr/share/xml/scap/ssg/content\"
+    
+    # Check for existing CentOS 10 data stream
+    if [ -f \"\${ssg_dir}/ssg-centos10-ds.xml\" ]; then
+        echo \"\${ssg_dir}/ssg-centos10-ds.xml\"
+        return 0
+    fi
+    
+    # Try to create from RHEL 10
+    local rhel10_ds=\"\${ssg_dir}/ssg-rhel10-ds.xml\"
+    if [ -f \"\$rhel10_ds\" ]; then
+        local centos10_ds=\"\${ssg_dir}/ssg-centos10-ds.xml\"
+        if adapt_rhel10_to_centos10 \"\$rhel10_ds\" \"\$centos10_ds\"; then
+            echo \"\$centos10_ds\"
             return 0
         fi
-    done
-    return 1
+        echo \"ERROR: Failed to create CentOS 10 data stream from RHEL 10\" >&2
+        return 1
+    else
+        echo \"ERROR: RHEL 10 data stream not found: \$rhel10_ds\" >&2
+        echo \"ERROR: Cannot create CentOS 10 data stream without RHEL 10 source\" >&2
+        return 1
+    fi
 }
 
 # Check/install OpenSCAP
