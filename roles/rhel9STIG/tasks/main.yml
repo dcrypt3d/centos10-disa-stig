@@ -118,7 +118,7 @@
     - rhel9STIG_stigrule_257791_Manage
 # R-257797 RHEL-09-213010
 - name: stigrule_257797_kernel_dmesg_restrict
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.dmesg_restrict
     value: "{{ rhel9STIG_stigrule_257797_kernel_dmesg_restrict_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257797_kernel_dmesg_restrict_File }}"
@@ -127,7 +127,7 @@
     - rhel9STIG_stigrule_257797_Manage
 # R-257798 RHEL-09-213015
 - name: stigrule_257798_kernel_perf_event_paranoid
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.perf_event_paranoid
     value: "{{ rhel9STIG_stigrule_257798_kernel_perf_event_paranoid_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257798_kernel_perf_event_paranoid_File }}"
@@ -136,7 +136,7 @@
     - rhel9STIG_stigrule_257798_Manage
 # R-257799 RHEL-09-213020
 - name: stigrule_257799_kernel_kexec_load_disabled
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.kexec_load_disabled
     value: "{{ rhel9STIG_stigrule_257799_kernel_kexec_load_disabled_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257799_kernel_kexec_load_disabled_File }}"
@@ -145,7 +145,7 @@
     - rhel9STIG_stigrule_257799_Manage
 # R-257800 RHEL-09-213025
 - name: stigrule_257800_kernel_kptr_restrict
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.kptr_restrict
     value: "{{ rhel9STIG_stigrule_257800_kernel_kptr_restrict_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257800_kernel_kptr_restrict_File }}"
@@ -154,7 +154,7 @@
     - rhel9STIG_stigrule_257800_Manage
 # R-257801 RHEL-09-213030
 - name: stigrule_257801_fs_protected_hardlinks
-  sysctl:
+  ansible.posix.sysctl:
     name: fs.protected_hardlinks
     value: "{{ rhel9STIG_stigrule_257801_fs_protected_hardlinks_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257801_fs_protected_hardlinks_File }}"
@@ -163,7 +163,7 @@
     - rhel9STIG_stigrule_257801_Manage
 # R-257802 RHEL-09-213035
 - name: stigrule_257802_fs_protected_symlinks
-  sysctl:
+  ansible.posix.sysctl:
     name: fs.protected_symlinks
     value: "{{ rhel9STIG_stigrule_257802_fs_protected_symlinks_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257802_fs_protected_symlinks_File }}"
@@ -172,7 +172,7 @@
     - rhel9STIG_stigrule_257802_Manage
 # R-257803 RHEL-09-213040
 - name: stigrule_257803_kernel_core_pattern
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.core_pattern
     value: "{{ rhel9STIG_stigrule_257803_kernel_core_pattern_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257803_kernel_core_pattern_File }}"
@@ -271,7 +271,7 @@
     - rhel9STIG_stigrule_257808_Manage
 # R-257809 RHEL-09-213070
 - name: stigrule_257809_kernel_randomize_va_space
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.randomize_va_space
     value: "{{ rhel9STIG_stigrule_257809_kernel_randomize_va_space_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257809_kernel_randomize_va_space_File }}"
@@ -280,7 +280,7 @@
     - rhel9STIG_stigrule_257809_Manage
 # R-257810 RHEL-09-213075
 - name: stigrule_257810_kernel_unprivileged_bpf_disabled
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.unprivileged_bpf_disabled
     value: "{{ rhel9STIG_stigrule_257810_kernel_unprivileged_bpf_disabled_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257810_kernel_unprivileged_bpf_disabled_File }}"
@@ -289,7 +289,7 @@
     - rhel9STIG_stigrule_257810_Manage
 # R-257811 RHEL-09-213080
 - name: stigrule_257811_kernel_yama_ptrace_scope
-  sysctl:
+  ansible.posix.sysctl:
     name: kernel.yama.ptrace_scope
     value: "{{ rhel9STIG_stigrule_257811_kernel_yama_ptrace_scope_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257811_kernel_yama_ptrace_scope_File }}"
@@ -354,7 +354,7 @@
     - result.rc == 0
 # R-257816 RHEL-09-213105
 - name: stigrule_257816_user_max_user_namespaces
-  sysctl:
+  ansible.posix.sysctl:
     name: user.max_user_namespaces
     value: "{{ rhel9STIG_stigrule_257816_user_max_user_namespaces_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257816_user_max_user_namespaces_File }}"
@@ -816,7 +816,7 @@
     - rhel9STIG_stigrule_257939_Manage
 # R-257942 RHEL-09-251045
 - name: stigrule_257942_net_core_bpf_jit_harden
-  sysctl:
+  ansible.posix.sysctl:
     name: net.core.bpf_jit_harden
     value: "{{ rhel9STIG_stigrule_257942_net_core_bpf_jit_harden_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257942_net_core_bpf_jit_harden_File }}"
@@ -894,7 +894,7 @@
   when: rhel9STIG_stigrule_257954_Manage
 # R-257957 RHEL-09-253010
 - name: stigrule_257957_net_ipv4_tcp_syncookies
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies
     value: "{{ rhel9STIG_stigrule_257957_net_ipv4_tcp_syncookies_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257957_net_ipv4_tcp_syncookies_File }}"
@@ -903,7 +903,7 @@
     - rhel9STIG_stigrule_257957_Manage
 # R-257958 RHEL-09-253015
 - name: stigrule_257958_net_ipv4_conf_all_accept_redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.all.accept_redirects
     value: "{{ rhel9STIG_stigrule_257958_net_ipv4_conf_all_accept_redirects_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257958_net_ipv4_conf_all_accept_redirects_File }}"
@@ -912,7 +912,7 @@
     - rhel9STIG_stigrule_257958_Manage
 # R-257959 RHEL-09-253020
 - name: stigrule_257959_net_ipv4_conf_all_accept_source_route
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.all.accept_source_route
     value: "{{ rhel9STIG_stigrule_257959_net_ipv4_conf_all_accept_source_route_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257959_net_ipv4_conf_all_accept_source_route_File }}"
@@ -921,7 +921,7 @@
     - rhel9STIG_stigrule_257959_Manage
 # R-257960 RHEL-09-253025
 - name: stigrule_257960_net_ipv4_conf_all_log_martians
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.all.log_martians
     value: "{{ rhel9STIG_stigrule_257960_net_ipv4_conf_all_log_martians_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257960_net_ipv4_conf_all_log_martians_File }}"
@@ -930,7 +930,7 @@
     - rhel9STIG_stigrule_257960_Manage
 # R-257961 RHEL-09-253030
 - name: stigrule_257961_net_ipv4_conf_default_log_martians
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.log_martians
     value: "{{ rhel9STIG_stigrule_257961_net_ipv4_conf_default_log_martians_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257961_net_ipv4_conf_default_log_martians_File }}"
@@ -939,7 +939,7 @@
     - rhel9STIG_stigrule_257961_Manage
 # R-257962 RHEL-09-253035
 - name: stigrule_257962_net_ipv4_conf_all_rp_filter
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.all.rp_filter
     value: "{{ rhel9STIG_stigrule_257962_net_ipv4_conf_all_rp_filter_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257962_net_ipv4_conf_all_rp_filter_File }}"
@@ -948,7 +948,7 @@
     - rhel9STIG_stigrule_257962_Manage
 # R-257963 RHEL-09-253040
 - name: stigrule_257963_net_ipv4_conf_default_accept_redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.accept_redirects
     value: "{{ rhel9STIG_stigrule_257963_net_ipv4_conf_default_accept_redirects_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257963_net_ipv4_conf_default_accept_redirects_File }}"
@@ -957,7 +957,7 @@
     - rhel9STIG_stigrule_257963_Manage
 # R-257964 RHEL-09-253045
 - name: stigrule_257964_net_ipv4_conf_default_accept_source_route
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.accept_source_route
     value: "{{ rhel9STIG_stigrule_257964_net_ipv4_conf_default_accept_source_route_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257964_net_ipv4_conf_default_accept_source_route_File }}"
@@ -966,7 +966,7 @@
     - rhel9STIG_stigrule_257964_Manage
 # R-257965 RHEL-09-253050
 - name: stigrule_257965_net_ipv4_conf_default_rp_filter
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.rp_filter
     value: "{{ rhel9STIG_stigrule_257965_net_ipv4_conf_default_rp_filter_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257965_net_ipv4_conf_default_rp_filter_File }}"
@@ -975,7 +975,7 @@
     - rhel9STIG_stigrule_257965_Manage
 # R-257966 RHEL-09-253055
 - name: stigrule_257966_net_ipv4_icmp_echo_ignore_broadcasts
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.icmp_echo_ignore_broadcasts
     value: "{{ rhel9STIG_stigrule_257966_net_ipv4_icmp_echo_ignore_broadcasts_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257966_net_ipv4_icmp_echo_ignore_broadcasts_File }}"
@@ -984,7 +984,7 @@
     - rhel9STIG_stigrule_257966_Manage
 # R-257967 RHEL-09-253060
 - name: stigrule_257967_net_ipv4_icmp_ignore_bogus_error_responses
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.icmp_ignore_bogus_error_responses
     value: "{{ rhel9STIG_stigrule_257967_net_ipv4_icmp_ignore_bogus_error_responses_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257967_net_ipv4_icmp_ignore_bogus_error_responses_File }}"
@@ -993,7 +993,7 @@
     - rhel9STIG_stigrule_257967_Manage
 # R-257968 RHEL-09-253065
 - name: stigrule_257968_net_ipv4_conf_all_send_redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.all.send_redirects
     value: "{{ rhel9STIG_stigrule_257968_net_ipv4_conf_all_send_redirects_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257968_net_ipv4_conf_all_send_redirects_File }}"
@@ -1002,7 +1002,7 @@
     - rhel9STIG_stigrule_257968_Manage
 # R-257969 RHEL-09-253070
 - name: stigrule_257969_net_ipv4_conf_default_send_redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.send_redirects
     value: "{{ rhel9STIG_stigrule_257969_net_ipv4_conf_default_send_redirects_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257969_net_ipv4_conf_default_send_redirects_File }}"
@@ -1011,7 +1011,7 @@
     - rhel9STIG_stigrule_257969_Manage
 # R-257970 RHEL-09-253075
 - name: stigrule_257970_net_ipv4_conf_all_forwarding
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.all.forwarding
     value: "{{ rhel9STIG_stigrule_257970_net_ipv4_conf_all_forwarding_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257970_net_ipv4_conf_all_forwarding_File }}"
@@ -1026,7 +1026,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257971_net_ipv6_conf_all_accept_ra
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.accept_ra
     value: "{{ rhel9STIG_stigrule_257971_net_ipv6_conf_all_accept_ra_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257971_net_ipv6_conf_all_accept_ra_File }}"
@@ -1042,7 +1042,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257972_net_ipv6_conf_all_accept_redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.accept_redirects
     value: "{{ rhel9STIG_stigrule_257972_net_ipv6_conf_all_accept_redirects_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257972_net_ipv6_conf_all_accept_redirects_File }}"
@@ -1058,7 +1058,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257973_net_ipv6_conf_all_accept_source_route
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.accept_source_route
     value: "{{ rhel9STIG_stigrule_257973_net_ipv6_conf_all_accept_source_route_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257973_net_ipv6_conf_all_accept_source_route_File }}"
@@ -1074,7 +1074,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257974_net_ipv6_conf_all_forwarding
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.forwarding
     value: "{{ rhel9STIG_stigrule_257974_net_ipv6_conf_all_forwarding_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257974_net_ipv6_conf_all_forwarding_File }}"
@@ -1090,7 +1090,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257975_net_ipv6_conf_default_accept_ra
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.default.accept_ra
     value: "{{ rhel9STIG_stigrule_257975_net_ipv6_conf_default_accept_ra_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257975_net_ipv6_conf_default_accept_ra_File }}"
@@ -1106,7 +1106,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257976_net_ipv6_conf_default_accept_redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.default.accept_redirects
     value: "{{ rhel9STIG_stigrule_257976_net_ipv6_conf_default_accept_redirects_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257976_net_ipv6_conf_default_accept_redirects_File }}"
@@ -1122,7 +1122,7 @@
   register: cmd_result
   failed_when: cmd_result.rc > 1
 - name: stigrule_257977_net_ipv6_conf_default_accept_source_route
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.default.accept_source_route
     value: "{{ rhel9STIG_stigrule_257977_net_ipv6_conf_default_accept_source_route_Value }}"
     sysctl_file: "{{ rhel9STIG_stigrule_257977_net_ipv6_conf_default_accept_source_route_File }}"
