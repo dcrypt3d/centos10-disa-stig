@@ -15,10 +15,8 @@ from ansible.plugins.callback import CallbackBase
 
 class CallbackModule(CallbackBase):
     CALLBACK_VERSION = 2.0
-    CALLBACK_TYPE = "xml"
+    CALLBACK_TYPE = "notification"
     CALLBACK_NAME = "stig_xml"
-
-    CALLBACK_NEEDS_WHITELIST = True
 
     def _get_STIG_path(self):
         cwd = os.path.abspath(".")

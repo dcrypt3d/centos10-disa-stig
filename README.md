@@ -12,7 +12,7 @@ DISA STIGs provide security configuration standards for Department of Defense sy
 
 ## Prerequisites
 
-- Ansible 2.9 or higher
+- Ansible 2.14.18 (tested and compatible)
 - Python 3.6 or higher
 - SSH access to target CentOS 10 Stream systems
 - Sudo/root privileges on target systems
