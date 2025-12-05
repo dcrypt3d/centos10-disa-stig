@@ -1,8 +1,6 @@
 ---
 # Ansible Galaxy requirements for DISA STIG compliance
 # Note: The rhel9STIG role is included locally in the roles/ directory
-
-collections:
-  - name: community.general
-    version: ">=1.0.0"
+# The ini_file module is part of ansible.builtin collection (included with Ansible 2.9+)
+# No external collections required
 
