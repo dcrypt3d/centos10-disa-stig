@@ -21,13 +21,6 @@ DISA STIGs provide security configuration standards for Department of Defense sy
 
 1. **Install Ansible** (if not already installed):
    ```bash
-   # On Ubuntu/Debian
-   sudo apt-get update
-   sudo apt-get install ansible
-
-   # On macOS
-   brew install ansible
-
    # On RHEL/CentOS
    sudo yum install ansible
    ```
