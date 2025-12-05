@@ -1,0 +1,83 @@
+---
+# Example group variables for DISA STIG customization
+# Copy this file to group_vars/all.yml and customize as needed
+#
+# Note: Variable names use rhel9stig prefix as the role is currently rhel9STIG
+# When RHEL 10 STIG role becomes available, these may need to be updated to rhel10stig
+
+# FIPS Mode
+# Enable FIPS for cryptographic compliance
+rhel9stig_use_fips: true
+rhel9stig_enable_fips: true
+
+# Password Policies
+# Adjust according to your organization's policy
+rhel9stig_pass_max_days: "60"      # Maximum password age
+rhel9stig_pass_min_days: "1"       # Minimum password age
+rhel9stig_pass_min_len: "14"       # Minimum password length
+rhel9stig_pass_warn_age: "7"       # Password expiration warning
+
+# Account Lockout
+rhel9stig_faillock_fail_interval: "900"   # Lockout after failures (seconds)
+rhel9stig_faillock_unlock_time: "600"     # Lockout duration (seconds)
+
+# SSH Configuration
+rhel9stig_ssh_client_alive_interval: "600"      # Client alive interval
+rhel9stig_ssh_client_alive_count_max: "0"       # Max client alive messages
+rhel9stig_ssh_permitrootlogin: "no"             # Disable root login
+rhel9stig_ssh_x11forwarding: "no"                # Disable X11 forwarding
+rhel9stig_ssh_hostbasedauthentication: "no"     # Disable host-based auth
+
+# Audit Configuration
+rhel9stig_auditd_action_mail_acct: "root"
+rhel9stig_auditd_admin_space_left_action: "halt"
+rhel9stig_auditd_max_log_file_action: "ROTATE"
+rhel9stig_auditd_num_logs: "5"
+rhel9stig_auditd_space_left_action: "email"
+
+# SELinux
+rhel9stig_selinux_state: "enforcing"
+rhel9stig_selinux_policy: "targeted"
+
+# Firewall
+rhel9stig_firewall_service: "firewalld"
+rhel9stig_firewalld_default_zone: "public"
+
+# Services to Disable (add more as needed)
+rhel9stig_service_disabled:
+  - avahi-daemon
+  - cups
+  - dhcp
+  - telnet-server
+  - tftp-server
+  - rsh
+  - rlogin
+  - rexec
+  - ntalk
+  - talk
+
+# Services to Enable
+rhel9stig_service_enabled:
+  - auditd
+  - rsyslog
+  - crond
+  - sshd
+
+# Kernel Parameters (Network Security)
+rhel9stig_sysctl_net_ipv4_ip_forward: "0"
+rhel9stig_sysctl_net_ipv4_conf_all_send_redirects: "0"
+rhel9stig_sysctl_net_ipv4_conf_all_accept_redirects: "0"
+rhel9stig_sysctl_net_ipv4_conf_all_accept_source_route: "0"
+rhel9stig_sysctl_net_ipv4_conf_all_log_martians: "1"
+rhel9stig_sysctl_net_ipv4_icmp_echo_ignore_broadcasts: "1"
+rhel9stig_sysctl_net_ipv4_icmp_ignore_bogus_error_responses: "1"
+rhel9stig_sysctl_net_ipv4_tcp_syncookies: "1"
+
+# IPv6 Security
+rhel9stig_sysctl_net_ipv6_conf_all_accept_redirects: "0"
+rhel9stig_sysctl_net_ipv6_conf_all_accept_source_route: "0"
+
+# Container Detection
+# Set to true if running in containers
+rhel9stig_system_is_container: false
+

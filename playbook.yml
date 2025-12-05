@@ -1,0 +1,36 @@
+---
+# DISA STIG Compliance Playbook for CentOS 10 Stream
+# This playbook applies DISA STIG V2R6 security controls to CentOS 10 Stream systems
+# Uses the official DISA RHEL 9 STIG Ansible role (RHEL 10 STIG may be available in the future)
+#
+# Usage:
+#   ansible-playbook -i inventory.yml playbook.yml --ask-become-pass
+#
+# For check mode (dry-run):
+#   ansible-playbook -i inventory.yml playbook.yml --check --ask-become-pass
+
+- name: Apply DISA STIG V2R6 to CentOS 10 Stream
+  hosts: all
+  become: yes
+  gather_facts: yes
+  
+  pre_tasks:
+    - name: Check if running on CentOS Stream 10 or RHEL 10
+      fail:
+        msg: "This playbook is designed for CentOS Stream 10 or RHEL 10 only. Detected: {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
+      when: 
+        - ansible_distribution not in ["CentOS", "RedHat"] or ansible_distribution_major_version != "10"
+      tags: always
+
+  roles:
+    - role: rhel9STIG
+      tags:
+        - stig
+        - compliance
+        - security
+
+  post_tasks:
+    - name: Display completion message
+      debug:
+        msg: "DISA STIG V2R6 compliance playbook completed. Review the XML report and reboot if necessary."
+

@@ -1,0 +1,7 @@
+---
+# Ansible Galaxy requirements for DISA STIG compliance
+# Note: The rhel9STIG role is included locally in the roles/ directory
+# This file is kept for any additional dependencies if needed
+
+# No external roles required - using local DISA STIG role from roles/rhel9STIG/
+

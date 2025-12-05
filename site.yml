@@ -1,0 +1,5 @@
+---
+# Main site playbook - applies DISA STIG to all hosts
+# This is a wrapper around playbook.yml for compatibility with the original structure
+- import_playbook: playbook.yml
+

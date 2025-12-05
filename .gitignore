@@ -1,0 +1,40 @@
+# Ansible
+*.retry
+.ansible/
+ansible.log
+ansible_facts/
+
+# STIG XML Reports
+*.xml
+xccdf-results.xml
+stig-report-*.html
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
