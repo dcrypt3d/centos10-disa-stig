@@ -37,7 +37,7 @@
     - result.rc == 0
 # R-257784 RHEL-09-211045
 - name: stigrule_257784__etc_systemd_system_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/systemd/system.conf
     section: Manager
     option: CtrlAltDelBurstAction
@@ -391,7 +391,7 @@
     - result.rc == 0
 # R-257820 RHEL-09-214015
 - name: stigrule_257820__etc_dnf_dnf_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/dnf/dnf.conf
     section: main
     option: gpgcheck
@@ -401,7 +401,7 @@
     - rhel9STIG_stigrule_257820_Manage
 # R-257821 RHEL-09-214020
 - name: stigrule_257821__etc_dnf_dnf_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/dnf/dnf.conf
     section: main
     option: localpkg_gpgcheck
@@ -411,7 +411,7 @@
     - rhel9STIG_stigrule_257821_Manage
 # R-257824 RHEL-09-214035
 - name: stigrule_257824__etc_dnf_dnf_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/dnf/dnf.conf
     section: main
     option: clean_requirements_on_remove
@@ -877,7 +877,7 @@
     - rhel9STIG_stigrule_257947_Manage
 # R-257949 RHEL-09-252040
 - name: stigrule_257949__etc_NetworkManager_NetworkManager_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/NetworkManager/NetworkManager.conf
     section: main
     option: dns
@@ -1393,7 +1393,7 @@
     - "'openssh-server' in packages"
 # R-258012 RHEL-09-271010
 - name: stigrule_258012__etc_dconf_db_local_d_01_banner_message
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/01-banner-message
     section: org/gnome/login-screen
     option: banner-message-enable
@@ -1415,7 +1415,7 @@
     - "'dconf' in packages"
 # R-258014 RHEL-09-271020
 - name: stigrule_258014__etc_dconf_db_local_d_00_security_settings
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-security-settings
     section: org/gnome/desktop/media-handling
     option: automount-open
@@ -1437,7 +1437,7 @@
     - "'dconf' in packages"
 # R-258016 RHEL-09-271030
 - name: stigrule_258016__etc_dconf_db_local_d_00_security_settings
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-security-settings
     section: org/gnome/desktop/media-handling
     option: autorun-never
@@ -1459,7 +1459,7 @@
     - "'dconf' in packages"
 # R-258019 RHEL-09-271045
 - name: stigrule_258019__etc_dconf_db_local_d_00_security_settings
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-security-settings
     section: org/gnome/settings-daemon/peripherals/smartcard
     option: removal-action
@@ -1481,7 +1481,7 @@
     - "'dconf' in packages"
 # R-258021 RHEL-09-271055
 - name: stigrule_258021__etc_dconf_db_local_d_00_screensaver
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-screensaver
     section: org/gnome/desktop/screensaver
     option: lock-enabled
@@ -1503,7 +1503,7 @@
     - "'dconf' in packages"
 # R-258023 RHEL-09-271065
 - name: stigrule_258023__etc_dconf_db_local_d_00_screensaver
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-screensaver
     section: org/gnome/desktop/session
     option: idle-delay
@@ -1525,7 +1525,7 @@
     - "'dconf' in packages"
 # R-258025 RHEL-09-271075
 - name: stigrule_258025__etc_dconf_db_local_d_00_screensaver
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-screensaver
     section: org/gnome/desktop/screensaver
     option: lock-delay
@@ -1547,7 +1547,7 @@
     - "'dconf' in packages"
 # R-258027 RHEL-09-271085
 - name: stigrule_258027__etc_dconf_db_local_d_00_security_settings
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-security-settings
     section: org/gnome/desktop/screensaver
     option: picture-uri
@@ -1579,7 +1579,7 @@
     - "'dconf' in packages"
 # R-258031 RHEL-09-271105
 - name: stigrule_258031__etc_dconf_db_local_d_00_security_settings
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/00-security-settings
     section: org/gnome/settings-daemon/plugins/media-keys
     option: logout
@@ -1601,7 +1601,7 @@
     - "'dconf' in packages"
 # R-258033 RHEL-09-271115
 - name: stigrule_258033__etc_dconf_db_local_d_02_login_screen
-  ini_file:
+  community.general.ini_file:
     path: /etc/dconf/db/local.d/02-login-screen
     section: org/gnome/login-screen
     option: disable-user-list
@@ -2065,7 +2065,7 @@
     - rhel9STIG_stigrule_258115_Manage
 # R-258116 RHEL-09-611135
 - name: stigrule_258116__etc_libuser_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/libuser.conf
     section: defaults
     option: crypt_style
@@ -2093,7 +2093,7 @@
     - rhel9STIG_stigrule_258121_Manage
 # R-258122 RHEL-09-611165
 - name: stigrule_258122__etc_sssd_sssd_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/sssd/sssd.conf
     section: pam
     option: pam_cert_auth
@@ -2143,7 +2143,7 @@
   when: rhel9STIG_stigrule_258126_Manage
 # R-258128 RHEL-09-611195
 - name: stigrule_258128__usr_lib_systemd_system_emergency_service
-  ini_file:
+  community.general.ini_file:
     path: /usr/lib/systemd/system/emergency.service
     section: Service
     option: ExecStart
@@ -2153,7 +2153,7 @@
     - rhel9STIG_stigrule_258128_Manage
 # R-258133 RHEL-09-631020
 - name: stigrule_258133__etc_sssd_sssd_conf
-  ini_file:
+  community.general.ini_file:
     path: /etc/sssd/sssd.conf
     section: pam
     option: offline_credentials_expiration

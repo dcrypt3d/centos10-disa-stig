@@ -16,6 +16,7 @@
   collections:
     - ansible.builtin
     - ansible.posix
+    - community.general
   
   pre_tasks:
     - name: Check if running on CentOS Stream 10 or RHEL 10
