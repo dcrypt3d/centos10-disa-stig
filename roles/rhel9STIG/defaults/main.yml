@@ -164,7 +164,7 @@ rhel9STIG_stigrule_257835_tftp_server_State: removed
 rhel9STIG_stigrule_257836_Manage: True
 rhel9STIG_stigrule_257836_quagga_State: removed
 # R-257838 RHEL-09-215075
-rhel9STIG_stigrule_257838_Manage: True
+rhel9STIG_stigrule_257838_Manage: False
 rhel9STIG_stigrule_257838_openssl_pkcs11_State: installed
 # R-257839 RHEL-09-215080
 rhel9STIG_stigrule_257839_Manage: True
