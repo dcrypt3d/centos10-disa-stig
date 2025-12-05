@@ -21,8 +21,11 @@ class CallbackModule(CallbackBase):
     def _get_STIG_path(self):
         cwd = os.path.abspath(".")
         for dirpath, dirs, files in os.walk(cwd):
-            if os.path.sep + "files" in dirpath and ".xml" in files[0]:
-                return os.path.join(cwd, dirpath, files[0])
+            if os.path.sep + "files" in dirpath and files and any(f.endswith(".xml") for f in files):
+                for f in files:
+                    if f.endswith(".xml"):
+                        return os.path.join(dirpath, f)
+        return None
 
     def __init__(self):
         super(CallbackModule, self).__init__()
@@ -31,13 +34,22 @@ class CallbackModule(CallbackBase):
         self.XML_path = os.environ.get("XML_PATH")
         if self.stig_path is None:
             self.stig_path = self._get_STIG_path()
+        
+        if self.stig_path is None:
+            # Default fallback path
+            default_path = os.path.join(os.path.abspath("."), "roles", "rhel9STIG", "files", "U_RHEL_9_STIG_V2R6_Manual-xccdf.xml")
+            if os.path.exists(default_path):
+                self.stig_path = default_path
+            else:
+                self.stig_path = "unknown-stig.xml"
+        
         self._display.display("Using STIG_PATH: {}".format(self.stig_path))
         if self.XML_path is None:
             self.XML_path = tempfile.mkdtemp() + "/xccdf-results.xml"
         self._display.display("Using XML_PATH: {}".format(self.XML_path))
 
         print("Writing: {}".format(self.XML_path))
-        STIG_name = os.path.basename(self.stig_path)
+        STIG_name = os.path.basename(self.stig_path) if self.stig_path else "unknown-stig.xml"
         ET.register_namespace("", "http://checklists.nist.gov/xccdf/1.2")
         self.tr = ET.Element("{http://checklists.nist.gov/xccdf/1.2}TestResult")
         self.tr.set(
@@ -55,14 +67,19 @@ class CallbackModule(CallbackBase):
         tg.text = platform.node()
 
     def _get_rev(self, nid):
-        with open(self.stig_path, "r") as f:
-            r = "SV-{}r(?P<rev>\d+)_rule".format(nid)
-            m = re.search(r, f.read())
-        if m:
-            rev = m.group("rev")
-        else:
-            rev = "0"
-        return rev
+        if self.stig_path is None or not os.path.exists(self.stig_path):
+            return "0"
+        try:
+            with open(self.stig_path, "r") as f:
+                r = "SV-{}r(?P<rev>\d+)_rule".format(nid)
+                m = re.search(r, f.read())
+            if m:
+                rev = m.group("rev")
+            else:
+                rev = "0"
+            return rev
+        except (IOError, OSError):
+            return "0"
 
     def v2_runner_on_ok(self, result):
         name = result._task.get_name()
