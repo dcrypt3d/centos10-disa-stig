@@ -341,12 +341,17 @@ run_local_validation() {
     print_info "Running OpenSCAP evaluation..."
     print_info "Command: $oscap_cmd"
     
-    # Run the evaluation
-    if eval "$oscap_cmd"; then
+    # Run the evaluation (oscap may return non-zero even on successful validation)
+    set +e
+    eval "$oscap_cmd"
+    OSCAP_EXIT=$?
+    set -e
+    
+    if [ $OSCAP_EXIT -eq 0 ]; then
         print_info "Validation completed successfully!"
     else
-        print_error "Validation completed with errors (exit code: $?)"
-        print_warning "Check the reports for details"
+        print_warning "Validation completed with exit code: $OSCAP_EXIT"
+        print_warning "This may indicate non-compliant findings. Check the reports for details."
     fi
 }
 
@@ -371,11 +376,11 @@ run_remote_validation() {
     local remote_script="/tmp/oscap-validate-$$.sh"
     
     # Generate remote script content
-    ssh "$host" "cat > $remote_script << 'REMOTE_SCRIPT_EOF'
+    ssh "$host" "cat > $remote_script << REMOTE_SCRIPT_EOF
 #!/bin/bash
-set -e
+set +e
 
-    # Function to adapt RHEL 10 data stream to CentOS 10
+# Function to adapt RHEL 10 data stream to CentOS 10
 adapt_rhel10_to_centos10() {
     local rhel10_ds=\"\$1\"
     local centos10_ds=\"\$2\"
@@ -450,20 +455,22 @@ TMP_DIR=\$(mktemp -d)
 HTML_REPORT=\"\$TMP_DIR/stig-compliance.html\"
 XML_REPORT=\"\$TMP_DIR/stig-compliance.xml\"
 
-# Run oscap
+# Run oscap (don't exit on error - oscap may return non-zero even on success)
 echo \"Running OpenSCAP evaluation...\"
+OSCAP_EXIT=0
 if [ \"$REPORT_FORMAT\" = \"html\" ] || [ \"$REPORT_FORMAT\" = \"both\" ]; then
-    oscap xccdf eval --profile $STIG_PROFILE --report \"\$HTML_REPORT\" \"\$STIG_DS\"
+    oscap xccdf eval --profile $STIG_PROFILE --report \"\$HTML_REPORT\" \"\$STIG_DS\" || OSCAP_EXIT=\$?
 fi
 
 if [ \"$REPORT_FORMAT\" = \"xml\" ] || [ \"$REPORT_FORMAT\" = \"both\" ]; then
-    oscap xccdf eval --profile $STIG_PROFILE --results \"\$XML_REPORT\" \"\$STIG_DS\"
+    oscap xccdf eval --profile $STIG_PROFILE --results \"\$XML_REPORT\" \"\$STIG_DS\" || OSCAP_EXIT=\$?
 fi
 
-# Output report paths
+# Always output report paths even if oscap had errors
 echo \"REPORTS_DIR=\$TMP_DIR\"
 echo \"HTML_REPORT=\$HTML_REPORT\"
 echo \"XML_REPORT=\$XML_REPORT\"
+echo \"OSCAP_EXIT=\$OSCAP_EXIT\"
 REMOTE_SCRIPT_EOF
 chmod +x $remote_script"
     
@@ -527,7 +534,11 @@ print_info "Validation completed!"
 if [ "$REPORT_FORMAT" = "html" ] || [ "$REPORT_FORMAT" = "both" ]; then
     if [ -f "$HTML_REPORT" ]; then
         print_info "HTML Report: $HTML_REPORT"
-        print_info "  Open in browser: file://$(realpath "$HTML_REPORT")"
+        if command -v realpath &> /dev/null; then
+            print_info "  Open in browser: file://$(realpath "$HTML_REPORT")"
+        else
+            print_info "  Open in browser: file://$(cd "$(dirname "$HTML_REPORT")" && pwd)/$(basename "$HTML_REPORT")"
+        fi
     else
         print_warning "HTML report not found: $HTML_REPORT"
     fi
